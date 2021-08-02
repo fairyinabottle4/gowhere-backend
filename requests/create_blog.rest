@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtlaXRobG93OTgiLCJpZCI6IjYwYTNjYmEwZDFjMzRkNWU2YTdhYmJjZSIsImlhdCI6MTYyMTM0NzQwOX0.-0aUrUlyHdPCav4p6ZQERw47LiTGq-Fi9M3HeAy5qu4
+
+{
+    "title": "From postman web client",
+    "author": "keith",
+    "url": "https://mongoosejs.com/docs/populate.html",
+    "likes": 67,
+    "user": "60a3cba0d1c34d5e6a7abbce"
+}
