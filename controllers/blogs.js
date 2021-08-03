@@ -18,7 +18,7 @@ blogRouter.get('/:id', async (request, response) => {
   })
     
 blogRouter.post('/', async (request, response, next) => {
-    const { title, author, url, comments, likes} = request.body
+    const { title, author, url, comments, likes, parent, string} = request.body
     if (!request.token || !request.decodedToken) {
         return response.status(401).json({ error: 'missing or invalid token' })
     }
@@ -33,7 +33,9 @@ blogRouter.post('/', async (request, response, next) => {
         url,
         comments,
         likes: likes || 0,
-        user: user._id
+        user: user._id,
+        parent,
+        string
     })    
     try {
         const savedBlog = await blog.save()
@@ -68,7 +70,8 @@ blogRouter.put('/:id', async (request, response) => {
   
     const blogObject = {
       comments: request.body.comments,
-      likes: request.body.likes
+      likes: request.body.likes,
+      liked: request.body.liked
     }
   
     const updatedBlog = await Blog.findByIdAndUpdate(

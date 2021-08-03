@@ -15,7 +15,28 @@ const blogSchema = new mongoose.Schema({
       ref: 'User'  
     },
     description: String,
-    imageUrl: String  
+    imageUrl: String,
+    liked: Boolean,
+    parent: {
+      title: {
+        type: String
+      },
+      author: String,
+      url: {
+        type: String
+      },
+      likes: Number,
+      comments: Array,
+      user: {
+        username: String,
+        name: String,
+        id: String  
+      },
+      description: String,
+      imageUrl: String,
+      liked: Boolean,
+      id: String
+    }
 })
   
 blogSchema.set('toJSON', {
