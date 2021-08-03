@@ -35,8 +35,10 @@ const blogSchema = new mongoose.Schema({
       description: String,
       imageUrl: String,
       liked: Boolean,
+      visited: Boolean,
       id: String
-    }
+    }, 
+    visited: Boolean
 })
   
 blogSchema.set('toJSON', {

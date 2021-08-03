@@ -18,7 +18,7 @@ blogRouter.get('/:id', async (request, response) => {
   })
     
 blogRouter.post('/', async (request, response, next) => {
-    const { title, author, url, comments, likes, parent, string} = request.body
+    const { title, author, url, comments, likes, parent, visited, liked, opcode } = request.body
     if (!request.token || !request.decodedToken) {
         return response.status(401).json({ error: 'missing or invalid token' })
     }
@@ -35,11 +35,14 @@ blogRouter.post('/', async (request, response, next) => {
         likes: likes || 0,
         user: user._id,
         parent,
-        string
     })    
     try {
         const savedBlog = await blog.save()
-        user.blogs = user.blogs.concat(savedBlog._id)
+        if (opcode === 100) {
+          user.blogs = user.blogs.concat(savedBlog._id)
+        } else if (opcode === 200) {
+          user.visited = user.visited.concat(savedBlog._id)
+        }
         await user.save()      
         response.status(201).json(savedBlog)    
     } catch (exception){
@@ -71,7 +74,8 @@ blogRouter.put('/:id', async (request, response) => {
     const blogObject = {
       comments: request.body.comments,
       likes: request.body.likes,
-      liked: request.body.liked
+      liked: request.body.liked,
+      visited: request.body.visited
     }
   
     const updatedBlog = await Blog.findByIdAndUpdate(

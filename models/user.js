@@ -14,6 +14,12 @@ const userSchema = mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Blog'
       }
+  ], 
+  visited: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
   ]
 })
 

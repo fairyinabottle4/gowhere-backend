@@ -5,7 +5,14 @@ const User = require('./../models/user')
 usersRouter.get('/', async (request, response) => {
     const users = await User
       .find({}).populate('blogs')
-    response.json(users.map(u => u.toJSON()))
+    const visited = await User.find({}).populate('visited')
+    const jsonUser = users.map(u => u.toJSON())
+    const jsonVisited = visited.map(v => v.toJSON())
+    // response.json([jsonUser, jsonVisited])
+    response.json({
+      jsonUser,
+      jsonVisited
+    })
   })
   
 usersRouter.get('/:id', async (request, response) => {
