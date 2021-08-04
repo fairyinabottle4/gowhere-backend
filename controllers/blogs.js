@@ -74,6 +74,7 @@ blogRouter.put('/:id', async (request, response) => {
     const blogObject = {
       comments: request.body.comments,
       userLiked: request.body.userLiked,
+      userVisited: request.body.userVisited,
       visited: request.body.visited
     }
   

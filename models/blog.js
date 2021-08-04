@@ -10,6 +10,7 @@ const blogSchema = new mongoose.Schema({
     },
     comments: Array,
     userLiked: Array,
+    userVisited: Array,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'  
@@ -22,6 +23,7 @@ const blogSchema = new mongoose.Schema({
         type: String
       },
       userLiked: Array,
+      userVisited: Array,
       author: String,
       url: {
         type: String
