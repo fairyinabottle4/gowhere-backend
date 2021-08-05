@@ -39,7 +39,7 @@ blogRouter.post('/', async (request, response, next) => {
     try {
         const savedBlog = await blog.save()
         if (opcode === 100) {
-          user.blogs = user.blogs.concat(savedBlog._id)
+          user.liked = user.liked.concat(savedBlog._id)
         } else if (opcode === 200) {
           user.visited = user.visited.concat(savedBlog._id)
         }

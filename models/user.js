@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  blogs: [
+  liked: [
       {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Blog'
