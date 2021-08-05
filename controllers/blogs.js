@@ -1,14 +1,14 @@
-const blogRouter = require('express').Router()
+const siteRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')  
 
-blogRouter.get('/', async (request, response) => {
+siteRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     response.json(blogs.map((blog) => blog.toJSON()));
   })
   
-blogRouter.get('/:id', async (request, response) => {
+siteRouter.get('/:id', async (request, response) => {
     try {
         const blog = await Blog.findById(request.params.id)
         response.json(blog.toJSON())
@@ -17,7 +17,7 @@ blogRouter.get('/:id', async (request, response) => {
     }
   })
     
-blogRouter.post('/', async (request, response, next) => {
+siteRouter.post('/', async (request, response, next) => {
     const { title, author, url, comments, likes, parent, opcode } = request.body
     if (!request.token || !request.decodedToken) {
         return response.status(401).json({ error: 'missing or invalid token' })
@@ -51,7 +51,7 @@ blogRouter.post('/', async (request, response, next) => {
 })
   
 
-blogRouter.delete('/:id', async (request, response) => {
+siteRouter.delete('/:id', async (request, response) => {
     if (!request.token || !request.decodedToken) {
         return response.status(401).json({ error: 'missing or invalid token' })
       }
@@ -66,7 +66,7 @@ blogRouter.delete('/:id', async (request, response) => {
       response.status(204).end()
     })
 
-blogRouter.put('/:id', async (request, response) => {
+siteRouter.put('/:id', async (request, response) => {
     if (!request.token || !request.decodedToken) {
       return response.status(401).json({ error: 'missing or invalid token' })
     }
@@ -94,4 +94,4 @@ blogRouter.put('/:id', async (request, response) => {
   
 
   
-module.exports = blogRouter
+module.exports = siteRouter
