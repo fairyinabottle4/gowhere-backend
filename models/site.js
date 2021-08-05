@@ -52,5 +52,5 @@ siteSchema.set('toJSON', {
     }
 })
   
-const Blog = mongoose.model('Blog', siteSchema)
-module.exports = Blog
+const Site = mongoose.model('Blog', siteSchema)
+module.exports = Site
