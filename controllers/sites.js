@@ -1,17 +1,17 @@
 const siteRouter = require('express').Router()
-const Blog = require('../models/blog')
+const Site = require('../models/site')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')  
 
 siteRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-    response.json(blogs.map((blog) => blog.toJSON()));
+    const sites = await Site.find({}).populate('user', { username: 1, name: 1 })
+    response.json(sites.map((site) => site.toJSON()));
   })
   
 siteRouter.get('/:id', async (request, response) => {
     try {
-        const blog = await Blog.findById(request.params.id)
-        response.json(blog.toJSON())
+        const site = await Site.findById(request.params.id)
+        response.json(site.toJSON())
     } catch (exception) {
         response.status(404).end()
     }
@@ -27,7 +27,7 @@ siteRouter.post('/', async (request, response, next) => {
     }
     
     const user = await User.findById(request.decodedToken.id)
-    const blog = new Blog({
+    const site = new Site({
         title,
         author, 
         url,
@@ -37,14 +37,14 @@ siteRouter.post('/', async (request, response, next) => {
         parent,
     })    
     try {
-        const savedBlog = await blog.save()
+        const savedSite = await site.save()
         if (opcode === 100) {
-          user.liked = user.liked.concat(savedBlog._id)
+          user.liked = user.liked.concat(savedSite._id)
         } else if (opcode === 200) {
-          user.visited = user.visited.concat(savedBlog._id)
+          user.visited = user.visited.concat(savedSite._id)
         }
         await user.save()      
-        response.status(201).json(savedBlog)    
+        response.status(201).json(savedSite)    
     } catch (exception){
         next(exception)
     }
@@ -55,14 +55,14 @@ siteRouter.delete('/:id', async (request, response) => {
     if (!request.token || !request.decodedToken) {
         return response.status(401).json({ error: 'missing or invalid token' })
       }
-      const blog = await Blog.findById(request.params.id)
+      const site = await Site.findById(request.params.id)
       const userId = request.decodedToken.id
     
-      if (blog.user.toString() !== userId.toString()) {
+      if (site.user.toString() !== userId.toString()) {
         response.status(400).end()
       }
     
-      await Blog.findByIdAndRemove(request.params.id)
+      await Site.findByIdAndRemove(request.params.id)
       response.status(204).end()
     })
 
@@ -71,25 +71,25 @@ siteRouter.put('/:id', async (request, response) => {
       return response.status(401).json({ error: 'missing or invalid token' })
     }
   
-    const blogObject = {
+    const siteObject = {
       comments: request.body.comments,
       userLiked: request.body.userLiked,
       userVisited: request.body.userVisited,
       visited: request.body.visited
     }
   
-    const updatedBlog = await Blog.findByIdAndUpdate(
+    const updatedSite = await Site.findByIdAndUpdate(
       request.params.id,
-      blogObject,
+      siteObject,
       { new: true }
     )
   
-    // Populate user field on the returned blog
-    const populatedBlog = await updatedBlog
+    // Populate user field on the returned site
+    const populatedSite = await updatedSite
       .populate('user', { username: 1, name: 1 })
       .execPopulate()
   
-    response.json(populatedBlog.toJSON())
+    response.json(populatedSite.toJSON())
   })
   
 
