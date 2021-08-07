@@ -4,11 +4,10 @@ const siteSchema = new mongoose.Schema({
     title: {
       type: String
     },
-    author: String,
+    country: String,
     url: {
       type: String
     },
-    comments: Array,
     userLiked: Array,
     userVisited: Array,
     user: {
@@ -17,19 +16,17 @@ const siteSchema = new mongoose.Schema({
     },
     description: String,
     imageUrl: String,
-    liked: Boolean,
     parent: {
       title: {
         type: String
       },
       userLiked: Array,
       userVisited: Array,
-      author: String,
+      country: String,
       url: {
         type: String
       },
       likes: Number,
-      comments: Array,
       user: {
         username: String,
         name: String,
@@ -37,11 +34,8 @@ const siteSchema = new mongoose.Schema({
       },
       description: String,
       imageUrl: String,
-      liked: Boolean,
-      visited: Boolean,
       id: String
     }, 
-    visited: Boolean
 })
   
 siteSchema.set('toJSON', {
