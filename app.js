@@ -24,6 +24,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use(middleware.tokenExtractor)
+app.use(express.static('build'))
 
 app.use('/api/sites',siteRouter)
 app.use('/api/users',usersRouter)
